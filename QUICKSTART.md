@@ -71,19 +71,14 @@ pnpm install
 ```
 
 ### 2. Set Up Supabase
+**📖 For detailed step-by-step instructions, see [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md)**
+
+Quick overview:
 1. Create a project at [supabase.com](https://supabase.com)
-2. Run migrations in order:
-   ```bash
-   # In Supabase SQL Editor, run each migration file in order:
-   # 00001_create_users_profile.sql
-   # 00002_create_tiktok_accounts.sql
-   # 00003_create_imports.sql
-   # 00004_create_posts.sql
-   # 00005_create_jobs.sql
-   # 00006_create_analytics.sql
-   ```
+2. Run migrations in order (see detailed guide)
 3. Create a storage bucket named `videos`
 4. Enable RLS on the bucket
+5. Configure environment variables
 
 ### 3. Configure Environment Variables
 Copy `.env.example` to `.env.local` and fill in:

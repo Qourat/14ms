@@ -31,6 +31,7 @@ This is a monorepo managed with Turborepo and pnpm workspaces:
    ```
 
 2. **Setup Supabase**
+   - See detailed instructions in [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md)
    - Create project at supabase.com
    - Run migrations in `supabase/migrations/` in order
    - Create storage bucket named `videos`
