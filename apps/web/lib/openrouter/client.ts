@@ -27,7 +27,7 @@ export async function chat(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
       'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-      'X-Title': 'YouTube to TikTok Reposter',
+      'X-Title': '14ms - YouTube to TikTok Reposter',
     },
     body: JSON.stringify({
       model: options.model || 'anthropic/claude-3.5-sonnet',

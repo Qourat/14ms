@@ -1,7 +1,7 @@
 services:
   # Web Service (Next.js)
   - type: web
-    name: youtube-to-tiktok-web
+    name: 14ms-web
     runtime: node
     region: oregon
     plan: starter
@@ -30,13 +30,13 @@ services:
         sync: false
       - key: REDIS_URL
         fromService:
-          name: youtube-to-tiktok-redis
+          name: 14ms-redis
           type: redis
           property: connectionString
 
   # Background Worker
   - type: worker
-    name: youtube-to-tiktok-worker
+    name: 14ms-worker
     runtime: node
     region: oregon
     plan: starter
@@ -57,13 +57,13 @@ services:
         sync: false
       - key: REDIS_URL
         fromService:
-          name: youtube-to-tiktok-redis
+          name: 14ms-redis
           type: redis
           property: connectionString
 
   # Redis
   - type: redis
-    name: youtube-to-tiktok-redis
+    name: 14ms-redis
     region: oregon
     plan: starter
     maxmemoryPolicy: noeviction
