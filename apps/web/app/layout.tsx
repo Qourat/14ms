@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'YouTube to TikTok Reposter',
+  title: '14ms - YouTube to TikTok Reposter',
   description: 'Import YouTube Shorts and repost them to TikTok',
 }
 

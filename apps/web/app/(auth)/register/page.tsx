@@ -48,7 +48,7 @@ export default function RegisterPage() {
       <div>
         <h2 className="text-3xl font-bold text-center">Create account</h2>
         <p className="mt-2 text-center text-gray-600">
-          Get started with YouTube to TikTok
+          Get started with 14ms
         </p>
       </div>
       <form className="mt-8 space-y-6" onSubmit={handleRegister}>

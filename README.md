@@ -1,4 +1,4 @@
-# YouTube Shorts to TikTok Reposter
+# 14ms
 
 A web application that allows users to import YouTube Shorts and repost them to TikTok. Built with a modern stack using Render (hosting), Supabase (database/auth), GitHub (version control), and OpenRouter (AI APIs).
 
@@ -26,7 +26,7 @@ This is a monorepo managed with Turborepo and pnpm workspaces:
 1. **Clone and Install**
    ```bash
    git clone <repo>
-   cd youtube-to-tiktok
+   cd 14ms
    pnpm install
    ```
 
