@@ -16,6 +16,7 @@ jobs:
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
+          # Secrets must be configured in repository settings
           service-id: ${{ secrets.RENDER_WEB_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
 

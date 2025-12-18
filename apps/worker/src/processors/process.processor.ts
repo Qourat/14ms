@@ -47,11 +47,14 @@ export async function processProcessor(job: Job<ProcessJobData>) {
     )
     
     // Update import with AI-generated content
+    // Merge with existing metadata to preserve any existing data
+    const existingMetadata = (importRecord.metadata as Record<string, unknown>) || {}
     await supabase
       .from('imports')
       .update({
         status: 'ready',
         metadata: {
+          ...existingMetadata,
           ai_caption: caption,
           ai_hashtags: hashtags,
         },
