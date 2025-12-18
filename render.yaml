@@ -1,0 +1,70 @@
+services:
+  # Web Service (Next.js)
+  - type: web
+    name: youtube-to-tiktok-web
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: cd apps/web && npm install && npm run build
+    startCommand: cd apps/web && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: TIKTOK_CLIENT_KEY
+        sync: false
+      - key: TIKTOK_CLIENT_SECRET
+        sync: false
+      - key: TIKTOK_REDIRECT_URI
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          name: youtube-to-tiktok-redis
+          type: redis
+          property: connectionString
+
+  # Background Worker
+  - type: worker
+    name: youtube-to-tiktok-worker
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: cd apps/worker && npm install && npm run build
+    startCommand: cd apps/worker && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: TIKTOK_CLIENT_KEY
+        sync: false
+      - key: TIKTOK_CLIENT_SECRET
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          name: youtube-to-tiktok-redis
+          type: redis
+          property: connectionString
+
+  # Redis
+  - type: redis
+    name: youtube-to-tiktok-redis
+    region: oregon
+    plan: starter
+    maxmemoryPolicy: noeviction
+
