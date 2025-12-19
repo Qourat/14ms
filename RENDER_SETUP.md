@@ -8,10 +8,14 @@ Before starting, ensure you have:
 - ✅ GitHub repository set up and pushed (with `render.yaml` file)
 - ✅ Supabase project configured (see `SUPABASE_SETUP.md`)
 - ✅ All API keys ready:
-  - YouTube Data API key
-  - TikTok Client Key & Secret
-  - OpenRouter API key
+  - **YouTube Data API key** - See [`YOUTUBE_API_SETUP.md`](./YOUTUBE_API_SETUP.md) for detailed instructions
+  - **TikTok Client Key & Secret** - See [`TIKTOK_API_SETUP.md`](./TIKTOK_API_SETUP.md) for detailed instructions
+  - **OpenRouter API key** - Get from https://openrouter.ai/
 - ✅ Domain name (optional, e.g., `14ms.com`)
+
+**📖 Need help getting API keys?**
+- **YouTube API**: See [`YOUTUBE_API_SETUP.md`](./YOUTUBE_API_SETUP.md) for step-by-step guide
+- **TikTok API**: See [`TIKTOK_API_SETUP.md`](./TIKTOK_API_SETUP.md) for step-by-step guide
 
 ## Overview: Blueprint Deployment
 
@@ -119,10 +123,10 @@ Go to **14ms-web** → **"Environment"** tab → Click **"Add Environment Variab
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://wpgqhqxzbfwvksuomsdk.supabase.co` | Supabase Dashboard → Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | Supabase Dashboard → Settings → API (anon/public key) |
 | `SUPABASE_SERVICE_ROLE_KEY` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | Supabase Dashboard → Settings → API (service_role key - **KEEP SECRET!**) |
-| `YOUTUBE_API_KEY` | `your_youtube_api_key` | Google Cloud Console → APIs & Services → Credentials |
-| `TIKTOK_CLIENT_KEY` | `your_tiktok_client_key` | TikTok Developer Portal → Your App |
-| `TIKTOK_CLIENT_SECRET` | `your_tiktok_client_secret` | TikTok Developer Portal → Your App (**KEEP SECRET!**) |
-| `TIKTOK_REDIRECT_URI` | `https://14ms-web.onrender.com/api/tiktok/callback` | (Must match TikTok app redirect URI exactly) |
+| `YOUTUBE_API_KEY` | `your_youtube_api_key` | See [`YOUTUBE_API_SETUP.md`](./YOUTUBE_API_SETUP.md) for detailed setup |
+| `TIKTOK_CLIENT_KEY` | `your_tiktok_client_key` | See [`TIKTOK_API_SETUP.md`](./TIKTOK_API_SETUP.md) for detailed setup |
+| `TIKTOK_CLIENT_SECRET` | `your_tiktok_client_secret` | See [`TIKTOK_API_SETUP.md`](./TIKTOK_API_SETUP.md) for detailed setup (**KEEP SECRET!**) |
+| `TIKTOK_REDIRECT_URI` | `https://14ms-web.onrender.com/api/tiktok/callback` | Must match TikTok app redirect URI exactly (see [`TIKTOK_API_SETUP.md`](./TIKTOK_API_SETUP.md)) |
 | `OPENROUTER_API_KEY` | `your_openrouter_api_key` | OpenRouter.ai → API Keys |
 
 **Auto-Configured (Don't Set Manually):**
