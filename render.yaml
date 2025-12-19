@@ -5,7 +5,7 @@ services:
     runtime: node
     region: oregon
     plan: starter
-    buildCommand: corepack enable && corepack prepare pnpm@8.15.0 --activate && pnpm install --shamefully-hoist && cd apps/web && pnpm build
+    buildCommand: corepack enable && corepack prepare pnpm@8.15.0 --activate && NODE_ENV=development pnpm install --shamefully-hoist && cd apps/web && pnpm build
     startCommand: cd apps/web && pnpm start
     envVars:
       - key: NODE_ENV
