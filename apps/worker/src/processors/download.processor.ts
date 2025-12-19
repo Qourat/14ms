@@ -56,8 +56,13 @@ export async function downloadProcessor(job: Job<DownloadJobData>) {
       chunks.push(chunk)
       
       // Update progress
+      const contentLength = format.contentLength
+      const totalSize = typeof contentLength === 'string' 
+        ? parseInt(contentLength, 10) 
+        : (typeof contentLength === 'number' ? contentLength : 1)
+      const currentLength = Buffer.concat(chunks).length
       const progress = Math.min(
-        Math.floor((Buffer.concat(chunks).length / (format.contentLength || 1)) * 100),
+        Math.floor((currentLength / totalSize) * 100),
         99
       )
       

@@ -10,9 +10,13 @@ export async function getVideoInfo(videoId: string): Promise<VideoInfo> {
   const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
   const info = await ytdl.getInfo(videoUrl)
   
+  const lengthSeconds = typeof info.videoDetails.lengthSeconds === 'string'
+    ? parseInt(info.videoDetails.lengthSeconds, 10)
+    : Number(info.videoDetails.lengthSeconds)
+  
   return {
     title: info.videoDetails.title,
-    duration: parseInt(info.videoDetails.lengthSeconds),
+    duration: lengthSeconds,
     formats: info.formats,
   }
 }
@@ -34,12 +38,16 @@ export async function downloadVideo(
   
   const stream = ytdl(videoUrl, { format })
   const chunks: Buffer[] = []
-  const totalSize = format.contentLength || 0
+  const contentLength = format.contentLength
+  const totalSize = typeof contentLength === 'string' 
+    ? parseInt(contentLength, 10) 
+    : (typeof contentLength === 'number' ? contentLength : 0)
   
   for await (const chunk of stream) {
     chunks.push(chunk)
     if (onProgress && totalSize > 0) {
-      const progress = Math.floor((Buffer.concat(chunks).length / totalSize) * 100)
+      const currentLength = Buffer.concat(chunks).length
+      const progress = Math.floor((currentLength / totalSize) * 100)
       onProgress(progress)
     }
   }

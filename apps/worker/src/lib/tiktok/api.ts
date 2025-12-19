@@ -33,10 +33,17 @@ export async function initDirectPost(
     body: JSON.stringify(options),
   })
   
-  const data = await response.json()
+  const data = await response.json() as {
+    error?: { code?: string; message?: string }
+    data?: UploadInitResponse
+  }
   
   if (data.error?.code !== 'ok') {
     throw new Error(data.error?.message || 'Failed to initialize upload')
+  }
+  
+  if (!data.data) {
+    throw new Error('No data returned from upload init')
   }
   
   return data.data
@@ -58,10 +65,17 @@ export async function getPublishStatus(
     }
   )
   
-  const data = await response.json()
+  const data = await response.json() as {
+    error?: { code?: string; message?: string }
+    data?: { status: string; publish_id: string; uploaded_bytes?: number }
+  }
   
   if (data.error?.code !== 'ok') {
     throw new Error(data.error?.message || 'Failed to fetch publish status')
+  }
+  
+  if (!data.data) {
+    throw new Error('No data returned from publish status')
   }
   
   return data.data

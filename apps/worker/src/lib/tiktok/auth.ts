@@ -23,12 +23,12 @@ export async function refreshAccessToken(refreshToken: string): Promise<TikTokTo
     }),
   })
   
-  const data = await response.json()
+  const data = await response.json() as TikTokTokens | { error?: string; error_description?: string }
   
-  if (data.error) {
+  if ('error' in data && data.error) {
     throw new Error(data.error_description || 'Token refresh failed')
   }
   
-  return data
+  return data as TikTokTokens
 }
 

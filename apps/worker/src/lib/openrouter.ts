@@ -38,11 +38,17 @@ export async function chat(
   })
   
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'OpenRouter API error' }))
-    throw new Error(error.message || 'OpenRouter API error')
+    const errorData = await response.json().catch(() => ({ message: 'OpenRouter API error' })) as { message?: string }
+    throw new Error(errorData.message || 'OpenRouter API error')
   }
   
-  const data = await response.json()
+  const data = await response.json() as {
+    choices: Array<{
+      message: {
+        content: string
+      }
+    }>
+  }
   return data.choices[0].message.content
 }
 

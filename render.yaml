@@ -5,8 +5,8 @@ services:
     runtime: node
     region: oregon
     plan: starter
-    buildCommand: cd apps/web && npm install && npm run build
-    startCommand: cd apps/web && npm start
+    buildCommand: pnpm install && pnpm --filter web build
+    startCommand: cd apps/web && pnpm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -40,8 +40,8 @@ services:
     runtime: node
     region: oregon
     plan: starter
-    buildCommand: cd apps/worker && npm install && npm run build
-    startCommand: cd apps/worker && npm start
+    buildCommand: pnpm install && pnpm --filter worker build
+    startCommand: cd apps/worker && pnpm start
     envVars:
       - key: NODE_ENV
         value: production
