@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { exchangeCodeForTokens } from '@/lib/tiktok/auth'
 import { getUserInfo } from '@/lib/tiktok/api'
+import { cookies } from 'next/headers'
+import { constantTimeEquals } from '@/lib/utils/security'
+
+const STATE_COOKIE_NAME = 'tiktok_oauth_state'
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,7 +19,7 @@ export async function GET(request: NextRequest) {
     
     const searchParams = request.nextUrl.searchParams
     const code = searchParams.get('code')
-    const state = searchParams.get('state')
+    const receivedState = searchParams.get('state')
     const error = searchParams.get('error')
     
     if (error) {
@@ -25,6 +29,32 @@ export async function GET(request: NextRequest) {
     if (!code) {
       return NextResponse.redirect(new URL('/settings?error=no_code', request.url))
     }
+    
+    // CRITICAL: Validate state parameter to prevent CSRF attacks
+    if (!receivedState) {
+      console.error('TikTok OAuth callback: Missing state parameter')
+      return NextResponse.redirect(new URL('/settings?error=invalid_state', request.url))
+    }
+    
+    // Retrieve stored state from secure cookie
+    const cookieStore = await cookies()
+    const storedState = cookieStore.get(STATE_COOKIE_NAME)?.value
+    
+    if (!storedState) {
+      console.error('TikTok OAuth callback: No stored state found')
+      return NextResponse.redirect(new URL('/settings?error=state_expired', request.url))
+    }
+    
+    // Validate state matches using constant-time comparison to prevent timing attacks
+    if (!constantTimeEquals(storedState, receivedState)) {
+      console.error('TikTok OAuth callback: State mismatch - possible CSRF attack')
+      // Clear the invalid state cookie
+      cookieStore.delete(STATE_COOKIE_NAME)
+      return NextResponse.redirect(new URL('/settings?error=state_mismatch', request.url))
+    }
+    
+    // State is valid - clear the cookie
+    cookieStore.delete(STATE_COOKIE_NAME)
     
     // Exchange code for tokens
     const tokens = await exchangeCodeForTokens(code)

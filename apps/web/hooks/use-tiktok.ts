@@ -38,6 +38,8 @@ export function useTikTok() {
         throw new Error(data.error || 'Invalid response from server')
       }
       
+      // State is stored in secure HTTP-only cookie, not returned to client
+      // This prevents CSRF attacks
       window.location.href = data.authUrl
     } catch (error) {
       console.error('Failed to connect TikTok account:', error)
