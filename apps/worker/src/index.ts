@@ -4,7 +4,9 @@ import { downloadProcessor } from './processors/download.processor'
 import { processProcessor } from './processors/process.processor'
 import { uploadProcessor } from './processors/upload.processor'
 
-const redis = new Redis(process.env.REDIS_URL!)
+const redis = new Redis(process.env.REDIS_URL!, {
+  maxRetriesPerRequest: null, // Required for BullMQ
+})
 
 console.log('Starting worker service...')
 
