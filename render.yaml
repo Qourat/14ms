@@ -5,7 +5,7 @@ services:
     runtime: node
     region: oregon
     plan: starter
-    buildCommand: pnpm install && pnpm --filter web build
+    buildCommand: corepack enable && corepack prepare pnpm@8.15.0 --activate && pnpm install && pnpm --filter web build
     startCommand: cd apps/web && pnpm start
     envVars:
       - key: NODE_ENV
@@ -40,7 +40,7 @@ services:
     runtime: node
     region: oregon
     plan: starter
-    buildCommand: pnpm install && pnpm --filter worker build
+    buildCommand: corepack enable && corepack prepare pnpm@8.15.0 --activate && pnpm install && pnpm --filter worker build
     startCommand: cd apps/worker && pnpm start
     envVars:
       - key: NODE_ENV
