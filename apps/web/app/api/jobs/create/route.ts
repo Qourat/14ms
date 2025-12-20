@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { getDownloadQueue, getUploadQueue } from '@/lib/queue/client'
 import type { Database } from '@/types/database'
-import type { SupabaseClient } from '@supabase/supabase-js'
 
 const downloadQueue = getDownloadQueue()
 const uploadQueue = getUploadQueue()
@@ -12,7 +11,7 @@ type JobReferenceType = Database['public']['Tables']['jobs']['Insert']['referenc
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase: SupabaseClient<Database> = await createServerSupabaseClient()
+    const supabase = await createServerSupabaseClient()
     
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
