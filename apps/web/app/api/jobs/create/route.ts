@@ -41,9 +41,9 @@ export async function POST(request: NextRequest) {
       status: 'pending',
     }
     
-    const { data: job, error: jobError } = await supabase
-      .from('jobs')
-      .insert([jobData] as Database['public']['Tables']['jobs']['Insert'][])
+    const { data: job, error: jobError } = await (supabase
+      .from('jobs') as any)
+      .insert([jobData])
       .select()
       .single()
     
