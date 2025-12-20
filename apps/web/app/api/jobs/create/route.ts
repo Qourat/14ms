@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { getDownloadQueue, getUploadQueue } from '@/lib/queue/client'
+import type { Database } from '@/types/database'
 
 const downloadQueue = getDownloadQueue()
 const uploadQueue = getUploadQueue()
+
+type JobType = Database['public']['Tables']['jobs']['Insert']['type']
+type JobReferenceType = Database['public']['Tables']['jobs']['Insert']['reference_type']
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +18,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     
-    const { type, importId, postId } = await request.json()
+    const body = await request.json()
+    const { type, importId, postId } = body as {
+      type: JobType
+      importId?: string
+      postId?: string
+    }
     
     if (!type || (type === 'download' && !importId) || (type === 'upload' && !postId)) {
       return NextResponse.json(
@@ -24,15 +33,17 @@ export async function POST(request: NextRequest) {
     }
     
     // Create job record in database
+    const jobData: Database['public']['Tables']['jobs']['Insert'] = {
+      user_id: user.id,
+      type,
+      reference_id: (type === 'download' ? importId : postId) ?? null,
+      reference_type: (type === 'download' ? 'import' : 'post') as JobReferenceType,
+      status: 'pending',
+    }
+    
     const { data: job, error: jobError } = await supabase
       .from('jobs')
-      .insert({
-        user_id: user.id,
-        type,
-        reference_id: type === 'download' ? importId : postId,
-        reference_type: type === 'download' ? 'import' : 'post',
-        status: 'pending',
-      })
+      .insert(jobData)
       .select()
       .single()
     
