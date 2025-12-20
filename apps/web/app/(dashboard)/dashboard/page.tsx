@@ -1,31 +1,36 @@
 import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
   const supabase = await createServerSupabaseClient()
   const { data: { user } } = await supabase.auth.getUser()
 
+  if (!user) {
+    redirect('/login')
+  }
+
   // Get stats
   const { count: importsCount } = await supabase
     .from('imports')
     .select('*', { count: 'exact', head: true })
-    .eq('user_id', user?.id)
+    .eq('user_id', user.id)
 
   const { count: postsCount } = await supabase
     .from('posts')
     .select('*', { count: 'exact', head: true })
-    .eq('user_id', user?.id)
+    .eq('user_id', user.id)
 
   const { count: publishedCount } = await supabase
     .from('posts')
     .select('*', { count: 'exact', head: true })
-    .eq('user_id', user?.id)
+    .eq('user_id', user.id)
     .eq('status', 'published')
 
   return (
     <div className="px-4 py-6 sm:px-0">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-gray-600">Welcome back, {user?.email}</p>
+        <p className="mt-2 text-gray-600">Welcome back, {user.email}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
